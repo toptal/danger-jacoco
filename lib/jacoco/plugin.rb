@@ -56,8 +56,10 @@ module Danger
       total_covered = total_coverage(path)
 
       report_markdown = "#{report_header_message} #{total_covered[:covered]}% #{total_covered[:status]}\n"
-      report_markdown << "| Class | Covered | Meta | Status |\n"
-      report_markdown << "|:---|:---:|:---:|:---:|\n"
+      if parser.classes.count > 0
+        report_markdown << "| Class | Covered | Meta | Status |\n"
+        report_markdown << "|:---|:---:|:---:|:---:|\n"
+      end
       class_coverage_above_minimum = markdown_class(parser, report_markdown, report_url)
       markdown(report_markdown)
 
