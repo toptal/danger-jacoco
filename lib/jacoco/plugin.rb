@@ -10,12 +10,14 @@ module Danger
     attr_accessor :minimum_class_coverage_percentage
     attr_accessor :files_extension
     attr_accessor :minimum_class_coverage_map
+    attr_accessor :report_header_message
 
     def setup
       @minimum_project_coverage_percentage = 0 unless minimum_project_coverage_percentage
       @minimum_class_coverage_percentage = 0 unless minimum_class_coverage_percentage
       @minimum_class_coverage_map = {} unless minimum_class_coverage_map
       @files_extension = ['.kt', '.java'] unless files_extension
+      @report_header_message = "### JaCoCO Code Coverage" unless report_header_message
     end
 
     # Parses the xml output of jacoco to Ruby model classes
@@ -53,7 +55,7 @@ module Danger
 
       total_covered = total_coverage(path)
 
-      report_markdown = "### JaCoCO Code Coverage #{total_covered[:covered]}% #{total_covered[:status]}\n"
+      report_markdown = "#{report_header_message} #{total_covered[:covered]}% #{total_covered[:status]}\n"
       report_markdown << "| Class | Covered | Meta | Status |\n"
       report_markdown << "|:---|:---:|:---:|:---:|\n"
       class_coverage_above_minimum = markdown_class(parser, report_markdown, report_url)
@@ -153,7 +155,7 @@ module Danger
     def report_link(class_name, report_url)
       if report_url.empty?
           "`#{class_name}`"
-      else 
+      else
           report_filepath = class_name.gsub(/\/(?=[^\/]*\/.)/, '.') + ".html"
           "[`#{class_name}`](#{report_url + report_filepath})"
       end
