@@ -17,6 +17,9 @@
       <counter type="CLASS" missed="0" covered="1"/>
       <counter type="BRANCH" missed="2" covered="2" />
     </class>
+    <class name="com/example/AddedButEmpty"
+        sourcefilename="AddedButEmpty.java" />
+    <sourcefile name="AddedButEmpty.java" />
     <sourcefile name="CachedRepository.java">
       <line nr="16" mi="0" ci="2" mb="0" cb="0"/>
       <line nr="17" mi="0" ci="3" mb="0" cb="0"/>
