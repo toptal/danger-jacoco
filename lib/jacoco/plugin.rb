@@ -77,6 +77,8 @@ module Danger
     # It returns a specific class code coverage and an emoji status as well
     def report_class(jacoco_class)
       counter = coverage_counter(jacoco_class)
+      return nil if counter.nil?
+
       coverage = (counter.covered.fdiv(counter.covered + counter.missed) * 100).floor
       required_coverage = minimum_class_coverage_map[jacoco_class.name]
       required_coverage = minimum_class_coverage_percentage if required_coverage.nil?
@@ -121,7 +123,7 @@ module Danger
       branch_counter = counters.detect { |e| e.type.eql? 'BRANCH' }
       line_counter = counters.detect { |e| e.type.eql? 'LINE' }
       counter = branch_counter.nil? ? line_counter : branch_counter
-      raise "No coverage data found for #{jacoco_class.name}" if counter.nil?
+      warn "No coverage data found for #{jacoco_class.name}" if counter.nil?
 
       counter
     end
@@ -144,6 +146,8 @@ module Danger
       class_coverage_above_minimum = true
       parser.classes.each do |jacoco_class| # Check metrics for each classes
         rp = report_class(jacoco_class)
+        next if rp.nil?
+
         rl = report_link(jacoco_class.name, report_url)
         ln = "| #{rl} | #{rp[:covered]}% | #{rp[:required_coverage_percentage]}% | #{rp[:status]} |\n"
         report_markdown << ln

@@ -23,6 +23,13 @@ module Danger
 
       end
 
+      it 'should complete normally for empty class coverage tag for new file' do
+        added_files = %w[src/java/Blah.java src/java/com/example/AddedButEmpty.java]
+
+        allow(@dangerfile.git).to receive(:added_files).and_return(added_files)
+
+        @my_plugin.report "#{File.dirname(__FILE__)}/fixtures/output_a.xml"
+      end
 
       it :report do
         path_a = "#{File.dirname(__FILE__)}/fixtures/output_a.xml"
